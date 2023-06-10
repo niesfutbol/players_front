@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Player card | nies.futbol</title>
+  <style>
+    .player-card {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .player-photo {
+      width: 200px;
+      margin-right: 10px;
+    }
+    .team-logo, .league-logo {
+      width: 50px;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="player-info"></div>
+
+  <script>
+    var playerInfoDiv = document.getElementById('player-info');
+    var url = 'http://104.248.109.197:6969/v1?player=54';
+
+    fetch(url)
+      .then(response => response.json())
+      .then(playerData => {
+        var playerCard = document.createElement('div');
+        playerCard.classList.add('player-card');
+
+        var playerPhoto = document.createElement('img');
+        playerPhoto.src = playerData.photo;
+        playerPhoto.alt = playerData.full_name;
+        playerPhoto.classList.add('player-photo');
+        playerCard.appendChild(playerPhoto);
+
+        var playerDetails = document.createElement('div');
+
+        var playerName = document.createElement('h2');
+        playerName.textContent = playerData.full_name;
+        playerDetails.appendChild(playerName);
+
+        var playerNationality = document.createElement('p');
+        playerNationality.textContent = 'Nationality: ' + playerData.nationality;
+        playerDetails.appendChild(playerNationality);
+
+        var playerHeight = document.createElement('p');
+        playerHeight.textContent = 'Height: ' + playerData.height;
+        playerDetails.appendChild(playerHeight);
+
+        var playerWeight = document.createElement('p');
+        playerWeight.textContent = 'Weight: ' + playerData.weight;
+        playerDetails.appendChild(playerWeight);
+
+        var playerTeamLogo = document.createElement('img');
+        playerTeamLogo.src = playerData.team_logo;
+        playerTeamLogo.alt = playerData.team_name + ' logo';
+        playerTeamLogo.classList.add('team-logo');
+        playerDetails.appendChild(playerTeamLogo);
+
+        var playerTeamName = document.createElement('p');
+        playerTeamName.textContent = 'Team: ' + playerData.team_name;
+        playerDetails.appendChild(playerTeamName);
+
+        var playerLeagueLogo = document.createElement('img');
+        playerLeagueLogo.src = playerData.league_logo;
+        playerLeagueLogo.alt = playerData.league_name + ' logo';
+        playerLeagueLogo.classList.add('league-logo');
+        playerDetails.appendChild(playerLeagueLogo);
+
+        playerCard.appendChild(playerDetails);
+        playerInfoDiv.appendChild(playerCard);
+      })
+      .catch(error => console.error('Error:', error));
+  </script>
+</body>
+</html>
+
