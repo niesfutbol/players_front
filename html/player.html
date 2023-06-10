@@ -23,58 +23,67 @@
 
   <script>
     var playerInfoDiv = document.getElementById('player-info');
-    var url = 'http://104.248.109.197:6969/v1?player=54';
 
-    fetch(url)
-      .then(response => response.json())
-      .then(playerData => {
-        var playerCard = document.createElement('div');
-        playerCard.classList.add('player-card');
+    // Extracting the player ID from the URL
+    var urlParams = new URLSearchParams(window.location.search);
+    var playerId = urlParams.get('id');
 
-        var playerPhoto = document.createElement('img');
-        playerPhoto.src = playerData.photo;
-        playerPhoto.alt = playerData.full_name;
-        playerPhoto.classList.add('player-photo');
-        playerCard.appendChild(playerPhoto);
+    if (playerId) {
+      var url = 'http://104.248.109.197:6969/v1?player=' + playerId;
 
-        var playerDetails = document.createElement('div');
+      fetch(url)
+        .then(response => response.json())
+        .then(playerData => {
+          var playerCard = document.createElement('div');
+          playerCard.classList.add('player-card');
 
-        var playerName = document.createElement('h2');
-        playerName.textContent = playerData.full_name;
-        playerDetails.appendChild(playerName);
+          var playerPhoto = document.createElement('img');
+          playerPhoto.src = playerData.photo;
+          playerPhoto.alt = playerData.full_name;
+          playerPhoto.classList.add('player-photo');
+          playerCard.appendChild(playerPhoto);
 
-        var playerNationality = document.createElement('p');
-        playerNationality.textContent = 'Nationality: ' + playerData.nationality;
-        playerDetails.appendChild(playerNationality);
+          var playerDetails = document.createElement('div');
 
-        var playerHeight = document.createElement('p');
-        playerHeight.textContent = 'Height: ' + playerData.height;
-        playerDetails.appendChild(playerHeight);
+          var playerName = document.createElement('h2');
+          playerName.textContent = playerData.full_name;
+          playerDetails.appendChild(playerName);
 
-        var playerWeight = document.createElement('p');
-        playerWeight.textContent = 'Weight: ' + playerData.weight;
-        playerDetails.appendChild(playerWeight);
+          var playerNationality = document.createElement('p');
+          playerNationality.textContent = 'Nationality: ' + playerData.nationality;
+          playerDetails.appendChild(playerNationality);
 
-        var playerTeamLogo = document.createElement('img');
-        playerTeamLogo.src = playerData.team_logo;
-        playerTeamLogo.alt = playerData.team_name + ' logo';
-        playerTeamLogo.classList.add('team-logo');
-        playerDetails.appendChild(playerTeamLogo);
+          var playerHeight = document.createElement('p');
+          playerHeight.textContent = 'Height: ' + playerData.height;
+          playerDetails.appendChild(playerHeight);
 
-        var playerTeamName = document.createElement('p');
-        playerTeamName.textContent = 'Team: ' + playerData.team_name;
-        playerDetails.appendChild(playerTeamName);
+          var playerWeight = document.createElement('p');
+          playerWeight.textContent = 'Weight: ' + playerData.weight;
+          playerDetails.appendChild(playerWeight);
 
-        var playerLeagueLogo = document.createElement('img');
-        playerLeagueLogo.src = playerData.league_logo;
-        playerLeagueLogo.alt = playerData.league_name + ' logo';
-        playerLeagueLogo.classList.add('league-logo');
-        playerDetails.appendChild(playerLeagueLogo);
+          var playerTeamLogo = document.createElement('img');
+          playerTeamLogo.src = playerData.team_logo;
+          playerTeamLogo.alt = playerData.team_name + ' logo';
+          playerTeamLogo.classList.add('team-logo');
+          playerDetails.appendChild(playerTeamLogo);
 
-        playerCard.appendChild(playerDetails);
-        playerInfoDiv.appendChild(playerCard);
-      })
-      .catch(error => console.error('Error:', error));
+          var playerTeamName = document.createElement('p');
+          playerTeamName.textContent = 'Team: ' + playerData.team_name;
+          playerDetails.appendChild(playerTeamName);
+
+          var playerLeagueLogo = document.createElement('img');
+          playerLeagueLogo.src = playerData.league_logo;
+          playerLeagueLogo.alt = playerData.league_name + ' logo';
+          playerLeagueLogo.classList.add('league-logo');
+          playerDetails.appendChild(playerLeagueLogo);
+
+          playerCard.appendChild(playerDetails);
+          playerInfoDiv.appendChild(playerCard);
+        })
+        .catch(error => console.error('Error:', error));
+    } else {
+      console.error('Player ID not found in the URL');
+    }
   </script>
 </body>
 </html>
