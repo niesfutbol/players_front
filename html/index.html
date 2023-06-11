@@ -1,62 +1,50 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Player list | nies.futbol</title>
+    <title>Player list | nies.futbol</title>
 </head>
+
 <body>
     <h1>Player List</h1>
-
+    <div id="player-list"></div>
     <script>
-        // Assuming the JSON object is stored in a variable called 'players'
-        var players = {
-            "54": "Diego Costa",
-            "925": "Gonçalo Guedes",
-            "1165": "Matheus Cunha",
-            "1853": "Bruno Jordão",
-            "1864": "Pedro Neto",
-            "2887": "R. Jiménez",
-            "2922": "L. Dendoncker",
-            "7722": "S. Kalajdzic",
-            "18739": "W. Boly",
-            "18746": "M. Gibbs-White",
-            "18753": "Adama Traoré",
-            "19495": "N. Collins",
-            "24888": "Hwang Hee-Chan",
-            "61178": "C. Ronan",
-            "149564": "L. Cundle",
-            "158432": "C. Campbell",
-            "195717": "Y. Mosquera",
-            "195962": "Chiquinho",
-            "284262": "H. Griffiths",
-            "303019": "N. Fraser"
-        };
+        var playerListDiv = document.getElementById('player-list');
+        // Fetch the player data from the endpoint
+        fetch('http://104.248.109.197:6969/v1/players')
+            .then(response => response.json())
+            .then(data => {
+                // Get the ul element from the HTML
+                var ul = document.createElement("ul");
 
-        // Get the ul element from the HTML
-        var ul = document.createElement("ul");
+                // Iterate over the players object
+                for (var playerId in data) {
+                    if (data.hasOwnProperty(playerId)) {
+                        // Create li element
+                        var li = document.createElement("li");
 
-        // Iterate over the players object
-        for (var playerId in players) {
-            if (players.hasOwnProperty(playerId)) {
-                // Create li element
-                var li = document.createElement("li");
+                        // Create a element
+                        var a = document.createElement("a");
+                        a.href = "player.html?id=" + playerId;
+                        a.textContent = data[playerId];
 
-                // Create a element
-                var a = document.createElement("a");
-                a.href = "player.html?id=" + playerId;
-                a.textContent = players[playerId];
+                        // Append a to li
+                        li.appendChild(a);
 
-                // Append a to li
-                li.appendChild(a);
+                        // Append li to ul
+                        ul.appendChild(li);
+                    }
+                }
 
-                // Append li to ul
-                ul.appendChild(li);
-            }
-        }
-
-        // Append ul to the body or any desired element in your HTML
-        document.body.appendChild(ul);
+                // Append ul to the body or any desired element in your HTML
+                playerListDiv.appendChild(ul);
+            })
+            .catch(error => {
+                console.log('Error fetching player data:', error);
+            });
     </script>
-  <hr><p><small>Made with 💖 by <a href="https://nies.futbol">nies.futbol</a></small></p>
+    <hr>
+    <p><small>Made with 💖 by <a href="https://nies.futbol">nies.futbol</a></small></p>
 </body>
-</html>
 
+</html>
